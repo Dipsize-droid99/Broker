@@ -1,4 +1,4 @@
-﻿package main
+package main
 
 import (
 	"flag"
@@ -101,12 +101,13 @@ func main() {
 		q := getQueue(p[1:])
 		switch r.Method {
 		case http.MethodPut:
-			v := r.URL.Query().Get("v")
-			if v == "" {
+			vals := r.URL.Query()
+			vs, ok := vals["v"]
+			if !ok {
 				w.WriteHeader(400)
 				return
 			}
-			q.put(v)
+			q.put(vs[0])
 		case http.MethodGet:
 			timeout := 0
 			if s := r.URL.Query().Get("timeout"); s != "" {
