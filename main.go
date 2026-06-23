@@ -62,7 +62,7 @@ func (q *queue) get(timeout int) (string, bool) {
 		q.mu.Unlock()
 		return "", false
 	}
-	w := &waiter{ch: make(chan string), done: make(chan struct{})}
+	w := &waiter{ch: make(chan string, 1), done: make(chan struct{})}
 	q.waiters = append(q.waiters, w)
 	q.mu.Unlock()
 	t := time.NewTimer(time.Duration(timeout) * time.Second)
